@@ -30,7 +30,7 @@ const verifyadmin =(req,res,next)=>{
                 return res.json("error with the token")
             }else{
                 if(decoded.role==="admin"){
-                    next()
+                    return res.json("admin")
                 }else{
                     return res.json("not admin")
                 }
@@ -39,9 +39,9 @@ const verifyadmin =(req,res,next)=>{
     }
 }
 
-app.get("/dashboard",verifyadmin,(req,res)=>{
-    res.json("Success")
-})
+// app.get("/dashboard",verifyadmin,(req,res)=>{
+//     res.json("Success")
+// })
 //verify user
 const verifyUser =(req,res,next)=>{
     const token=req.cookies.token
@@ -53,7 +53,7 @@ const verifyUser =(req,res,next)=>{
                 return res.json("error with the token")
             }else{
                 if(decoded.role==="user"){
-                    next()
+                    return res.json(" user")
                 }else{
                     return res.json("not user")
                 }
@@ -62,9 +62,9 @@ const verifyUser =(req,res,next)=>{
     }
 }
 
-app.get("/explore",verifyUser,(req,res)=>{
-    res.json("Success")
-})
+// app.get("/explore",verifyUser,(req,res)=>{
+//     res.json("Success")
+// })
 //SignUp Code
 app.post("/register",(req,res)=>{
 
@@ -79,7 +79,7 @@ app.post("/register",(req,res)=>{
     
 })
 //Login Code
-app.post("/login",(req,res)=>{
+app.post("/login",verifyUser,verifyadmin,(req,res)=>{
     const{email,password}=req.body
     usermodal.findOne({email:email})
     .then((result)=>{
@@ -88,7 +88,9 @@ app.post("/login",(req,res)=>{
                 if(resp){
                     const tkn=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
                     res.cookie('token',tkn,{ httpOnly: true,secure:true,sameSite: 'strict'})
-                    return res.json({status:"Success",role:result.role})
+                    const ad=verifyadmin();
+                    const us=verifyUser();
+                    return res.json({status:"Success",role:result.role,ad,us})
 
                 }else{
                     return res.json("Password Incorrect")
