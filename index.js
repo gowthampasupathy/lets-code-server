@@ -87,7 +87,7 @@ app.post("/login",(req,res)=>{
             bcrypt.compare(password,result.password,(err,resp)=>{
                 if(resp){
                     const tkn=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
-                    res.cookie('token',tkn,{httpOnly:true,secure:true,strict:"none"})
+                    res.cookie('token',tkn,{ httpOnly: true,secure: process.env.NODE_ENV === 'production', sameSite: 'strict'})
                     return res.json({status:"Success",role:result.role})
 
                 }else{
