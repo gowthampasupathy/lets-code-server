@@ -39,9 +39,9 @@ const verifyadmin =(req,res,next)=>{
     }
 }
 
-// app.get("/dashboard",verifyadmin,(req,res)=>{
-//     res.json("Success")
-// })
+app.get("/dashboard",verifyadmin,(req,res)=>{
+    res.json("Success")
+})
 //verify user
 const verifyUser =(req,res,next)=>{
     const token=req.cookies.token
@@ -62,9 +62,9 @@ const verifyUser =(req,res,next)=>{
     }
 }
 
-// app.get("/explore",verifyUser,(req,res)=>{
-//     res.json("Success")
-// })
+app.get("/explore",verifyUser,(req,res)=>{
+    res.json("Success")
+})
 //SignUp Code
 app.post("/register",(req,res)=>{
 
@@ -87,7 +87,7 @@ app.post("/login",(req,res)=>{
             bcrypt.compare(password,result.password,(err,resp)=>{
                 if(resp){
                     const tkn=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
-                    res.cookie('token',tkn,{ httpOnly: true,secure:true,strict: 'none'})
+                    res.cookie('token',tkn)
                     return res.json({status:"Success",role:result.role})
 
                 }else{
