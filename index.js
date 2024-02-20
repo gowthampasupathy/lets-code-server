@@ -79,7 +79,7 @@ app.post("/register",(req,res)=>{
     
 })
 //Login Code
-app.post("/login",verifyUser,verifyadmin,(req,res)=>{
+app.post("/login",(req,res)=>{
     const{email,password}=req.body
     usermodal.findOne({email:email})
     .then((result)=>{
