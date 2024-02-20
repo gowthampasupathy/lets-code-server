@@ -88,8 +88,6 @@ app.post("/login",verifyUser,verifyadmin,(req,res)=>{
                 if(resp){
                     const tkn=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
                     res.cookie('token',tkn,{ httpOnly: true,secure:true,sameSite: 'strict'})
-                    const ad=verifyadmin();
-                    const us=verifyUser();
                     return res.json({status:"Success",role:result.role})
 
                 }else{
