@@ -20,51 +20,51 @@ const url="mongodb+srv://Gowtham:6374013119@cluster0.ki41eq9.mongodb.net/crud?re
 mongoose.connect(url)
 
 //verify  admin
-const verifyadmin =(req,res,next)=>{
-    const token=req.cookies.token
-    if(!token){
-        return res.json("Token is missing")
-    }else{
-        jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
-            if(err){
-                return res.json("error with the token")
-            }else{
-                if(decoded.role==="admin"){
-                    return res.json("admin")
-                }else{
-                    return res.json("not admin")
-                }
-            }
-        })
-    }
-}
+// const verifyadmin =(req,res,next)=>{
+//     const token=req.cookies.token
+//     if(!token){
+//         return res.json("Token is missing")
+//     }else{
+//         jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
+//             if(err){
+//                 return res.json("error with the token")
+//             }else{
+//                 if(decoded.role==="admin"){
+//                     return res.json("admin")
+//                 }else{
+//                     return res.json("not admin")
+//                 }
+//             }
+//         })
+//     }
+// }
 
-app.get("/dashboard",verifyadmin,(req,res)=>{
-    res.json("Success")
-})
-//verify user
-const verifyUser =(req,res,next)=>{
-    const token=req.cookies.token
-    if(!token){
-        return res.json("Token is missing")
-    }else{
-        jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
-            if(err){
-                return res.json("error with the token")
-            }else{
-                if(decoded.role==="user"){
-                    return res.json(" user")
-                }else{
-                    return res.json("not user")
-                }
-            }
-        })
-    }
-}
+// app.get("/dashboard",verifyadmin,(req,res)=>{
+//     res.json("Success")
+// })
+// //verify user
+// const verifyUser =(req,res,next)=>{
+//     const token=req.cookies.token
+//     if(!token){
+//         return res.json("Token is missing")
+//     }else{
+//         jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
+//             if(err){
+//                 return res.json("error with the token")
+//             }else{
+//                 if(decoded.role==="user"){
+//                     return res.json(" user")
+//                 }else{
+//                     return res.json("not user")
+//                 }
+//             }
+//         })
+//     }
+// }
 
-app.get("/explore",verifyUser,(req,res)=>{
-    res.json("Success")
-})
+// app.get("/explore",verifyUser,(req,res)=>{
+//     res.json("Success")
+// })
 //SignUp Code
 app.post("/register",(req,res)=>{
 
