@@ -10,7 +10,7 @@ const trackmodal=require('./modals/tracks')
 
 const app=express()
 app.use(cors({
-    origin:["https://letscode-two.vercel.app"],
+    origin:"https://letscode-two.vercel.app",
     methods:["GET","POST"],
     credentials:true
 }))
