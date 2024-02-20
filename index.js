@@ -90,7 +90,7 @@ app.post("/login",verifyUser,verifyadmin,(req,res)=>{
                     res.cookie('token',tkn,{ httpOnly: true,secure:true,sameSite: 'strict'})
                     const ad=verifyadmin();
                     const us=verifyUser();
-                    return res.json({status:"Success",role:result.role,ad,us})
+                    return res.json({status:"Success",role:result.role})
 
                 }else{
                     return res.json("Password Incorrect")
