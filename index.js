@@ -31,7 +31,7 @@ const verifyadmin =(req,res,next)=>{
                 return res.json("error with the token")
             }else{
                 if(decoded.role==="admin"){
-                    return res.json("admin")
+                    next();
                 }else{
                     return res.json("not admin")
                 }
@@ -54,7 +54,7 @@ const verifyUser =(req,res,next)=>{
                 return res.json("error with the token")
             }else{
                 if(decoded.role==="user"){
-                    return res.json(" user")
+                   next();
                 }else{
                     return res.json("not user")
                 }
