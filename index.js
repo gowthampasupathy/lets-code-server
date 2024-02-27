@@ -93,7 +93,7 @@ app.post("/login",(req,res)=>{
                         secure: true, // Set secure flag if request is over HTTPS
                         sameSite: 'none' // Enforce strict SameSite policy
                     })
-                    console.log("cookies set succedd")
+                    console.log(tok)
                     return res.json({status:"Success",role:result.role})
 
                 }else{
