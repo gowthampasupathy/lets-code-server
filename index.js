@@ -11,7 +11,7 @@ const prbmodal=require('./modals/problem')
 
 const app=express()
 app.use(cors({
-    origin:"https://letscode-two.vercel.app",
+    origin:["https://letscode-two.vercel.app","https://localhost:3000"],
     methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))
@@ -54,7 +54,7 @@ const verifyUser =(req,res,next)=>{
                 return res.json("error with the token")
             }else{
                 if(decoded.role==="user"){
-                   next();
+                  return res.json({status:"Success",email:decoded.email,name:decoded.name})
                 }else{
                     return res.json("not user")
                 }
@@ -87,7 +87,7 @@ app.post("/login",(req,res)=>{
         if(result){
             bcrypt.compare(password,result.password,(err,resp)=>{
                 if(resp){
-                    const token=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
+                    const token=jwt.sign({email:result.email,role:result.role,name:result.name},"jwt-secret-key",{expiresIn:'1d'})
                     res.cookie("token",token,{ 
                         httpOnly: true, // Ensure cookie is accessible only through HTTP(S)
                         secure: true, // Set secure flag if request is over HTTPS
