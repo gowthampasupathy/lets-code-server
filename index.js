@@ -90,8 +90,8 @@ app.post("/login",(req,res)=>{
                     const tok=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
                     res.cookie('token',tok,{ 
                         httpOnly: true, // Ensure cookie is accessible only through HTTP(S)
-                        secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // Set secure flag if request is over HTTPS
-                        sameSite: 'strict' // Enforce strict SameSite policy
+                        secure: true, // Set secure flag if request is over HTTPS
+                        sameSite: 'none' // Enforce strict SameSite policy
                     })
                     console.log("cookies set succedd")
                     return res.json({status:"Success",role:result.role})
