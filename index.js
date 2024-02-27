@@ -87,20 +87,21 @@ app.post("/login",(req,res)=>{
         if(result){
             bcrypt.compare(password,result.password,(err,resp)=>{
                 if(resp){
-                    const tok=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
-                    res.cookie('token',tok,{ 
+                    const token=jwt.sign({email:result.email,role:result.role},"jwt-secret-key",{expiresIn:'1d'})
+                    res.cookie("token",token,{ 
                         httpOnly: true, // Ensure cookie is accessible only through HTTP(S)
                         secure: true, // Set secure flag if request is over HTTPS
                         sameSite: 'none' // Enforce strict SameSite policy
                     })
-                    console.log(tok)
+                    console.log(token)
                     return res.json({status:"Success",role:result.role})
 
                 }else{
                     return res.json("Password Incorrect")
                 }
             })
-        }else{
+        }
+        else{
            return res.json("No Record Exist")
         }
     }
