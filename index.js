@@ -93,8 +93,8 @@ app.post("/login",(req,res)=>{
                         secure: true, // Set secure flag if request is over HTTPS
                         sameSite: 'none' // Enforce strict SameSite policy
                     })
-                    console.log(token)
-                    return res.json({status:"Success",role:result.role})
+                    console.log(token);
+                    return res.json({status:"Success",role:result.role,token:token})
 
                 }else{
                     return res.json("Password Incorrect")
