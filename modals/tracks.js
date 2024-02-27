@@ -3,6 +3,7 @@ const exploreschema=new mongoose.Schema({
     title:String,
     description:String,
     imageurl:String,
+    type:String,
     
 
 })

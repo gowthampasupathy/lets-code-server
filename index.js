@@ -6,12 +6,13 @@ const jwt=require('jsonwebtoken')
 const cookieParser=require('cookie-parser')
 const usermodal=require('./modals/sign')
 const trackmodal=require('./modals/tracks')
+const prbmodal=require('./modals/problem')
 
 
 const app=express()
 app.use(cors({
     origin:"https://letscode-two.vercel.app",
-    methods:["GET","POST"],
+    methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))
 app.use(express.json())
@@ -20,51 +21,51 @@ const url="mongodb+srv://Gowtham:6374013119@cluster0.ki41eq9.mongodb.net/crud?re
 mongoose.connect(url)
 
 //verify  admin
-// const verifyadmin =(req,res,next)=>{
-//     const token=req.cookies.token
-//     if(!token){
-//         return res.json("Token is missing")
-//     }else{
-//         jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
-//             if(err){
-//                 return res.json("error with the token")
-//             }else{
-//                 if(decoded.role==="admin"){
-//                     return res.json("admin")
-//                 }else{
-//                     return res.json("not admin")
-//                 }
-//             }
-//         })
-//     }
-// }
+const verifyadmin =(req,res,next)=>{
+    const token=req.cookies.token
+    if(!token){
+        return res.json("Token is missing")
+    }else{
+        jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
+            if(err){
+                return res.json("error with the token")
+            }else{
+                if(decoded.role==="admin"){
+                    return res.json("admin")
+                }else{
+                    return res.json("not admin")
+                }
+            }
+        })
+    }
+}
 
-// app.get("/dashboard",verifyadmin,(req,res)=>{
-//     res.json("Success")
-// })
-// //verify user
-// const verifyUser =(req,res,next)=>{
-//     const token=req.cookies.token
-//     if(!token){
-//         return res.json("Token is missing")
-//     }else{
-//         jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
-//             if(err){
-//                 return res.json("error with the token")
-//             }else{
-//                 if(decoded.role==="user"){
-//                     return res.json(" user")
-//                 }else{
-//                     return res.json("not user")
-//                 }
-//             }
-//         })
-//     }
-// }
+app.get("/dashboard",verifyadmin,(req,res)=>{
+    res.json("Success")
+})
+//verify user
+const verifyUser =(req,res,next)=>{
+    const token=req.cookies.token
+    if(!token){
+        return res.json("Token is missing")
+    }else{
+        jwt.verify(token,"jwt-secret-key",(err,decoded)=>{
+            if(err){
+                return res.json("error with the token")
+            }else{
+                if(decoded.role==="user"){
+                    return res.json(" user")
+                }else{
+                    return res.json("not user")
+                }
+            }
+        })
+    }
+}
 
-// app.get("/explore",verifyUser,(req,res)=>{
-//     res.json("Success")
-// })
+app.get("/explore",verifyUser,(req,res)=>{
+    res.json("Success")
+})
 //SignUp Code
 app.post("/register",(req,res)=>{
 
@@ -109,7 +110,16 @@ app.post("/login",(req,res)=>{
 //Tracks code
 
 app.get("/trac",(req,res)=>{
-    trackmodal.find({})
+    const type="Basic Tracks"
+    trackmodal.find({type:type})
+    .then(trk=>res.json(trk))
+    .catch(err=>res.json(err))
+})
+
+//plan
+app.get("/plan",(req,res)=>{
+    const type="Study Plan"
+    trackmodal.find({type:type})
     .then(trk=>res.json(trk))
     .catch(err=>res.json(err))
 })
@@ -120,7 +130,13 @@ app.post("/addtrack",(req,res)=>{
     .then(user=>res.json(user))
     .catch(err=>res.json(err))
 })
+//category option
+app.get("/cat",(req,res)=>{
+    trackmodal.find({},{title:1,_id:0})
+    .then(trk=>res.json(trk))
+    .catch(err=>res.json(err))
 
+})
 
 //all post code
 // app.post("/tracks",(req,res)=>{
@@ -135,7 +151,45 @@ app.get("/user",(req,res)=>{
     .then((user)=>res.json(user))
     .catch((err)=>res.json(err))
 })
+//prblistpage
+
+app.get("/prb/:title",(req,res)=>{
+    title=req.params.title
+    trackmodal.find({title:title})
+    .then(prb=>res.json(prb))
+    .catch(er=>res.json(er))
+})
+//problem info
+app.post("/addproblem",(req,res)=>{
+    prbmodal.create(req.body)
+    .then((prb)=>res.json(prb))
+    .catch((er)=>res.json(er))
+})
+
+app.get("/problem/:title",(req,res)=>{
+    title=req.params.title
+    prbmodal.find({title:title})
+    .then((prb)=>res.json(prb))
+    .catch((err)=>res.json(err))
+
+})
+
+//getproblem
+app.get("/getprb",(req,res)=>{
+    prbmodal.find({},)
+    .then((prb)=>res.json(prb))
+    .catch((er)=>res.json(er))
+})
+
+app.get("/getprb/:problemtitle",(req,res)=>{
+    title=req.params.problemtitle
+    prbmodal.findOne({problemtitle:title})
+    .then((prb)=>res.json(prb))
+    .catch((er)=>res.json(er))
+})
+
 app.listen(3001,()=>{
     console.log("server is Running")
 })
+
 
