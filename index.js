@@ -7,11 +7,13 @@ const cookieParser=require('cookie-parser')
 const usermodal=require('./modals/sign')
 const trackmodal=require('./modals/tracks')
 const prbmodal=require('./modals/problem')
+const userfulmodal=require('./modals/user')
+const usertrackmodal=require('./modals/usertrack')
 
 
 const app=express()
 app.use(cors({
-    origin:["https://letscode-two.vercel.app","https://localhost:3000"],
+    origin:"http://localhost:3000",
     methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))
@@ -116,7 +118,12 @@ app.get("/trac",(req,res)=>{
     .then(trk=>res.json(trk))
     .catch(err=>res.json(err))
 })
-
+//general
+app.get("/track",(req,res)=>{
+    trackmodal.find({})
+    .then(trk=>res.json(trk))
+    .catch(err=>res.json(err))
+})
 //plan
 app.get("/plan",(req,res)=>{
     const type="Study Plan"
@@ -125,7 +132,22 @@ app.get("/plan",(req,res)=>{
     .catch(err=>res.json(err))
 })
 //addtrack
-
+// async function main(){
+// const user=userfulmodal.find({name:"ut6f75p"});
+// console.log(user);   
+// }
+// main();
+// //populate
+// app.get('/pop',(req,res)=>{
+//     userfulmodal.find({name:"ut6f75p"}).populate('track').exec(function(arr,usr){
+//         if(err){
+//             res.json("Error");
+//         }
+//         else{
+//             res.json(usr);
+//         }
+//     })
+// })
 app.post("/addtrack",(req,res)=>{
     trackmodal.create(req.body)
     .then(user=>res.json(user))
@@ -177,7 +199,7 @@ app.get("/problem/:title",(req,res)=>{
 
 //getproblem
 app.get("/getprb",(req,res)=>{
-    prbmodal.find({},)
+    prbmodal.find({})
     .then((prb)=>res.json(prb))
     .catch((er)=>res.json(er))
 })
@@ -189,6 +211,31 @@ app.get("/getprb/:problemtitle",(req,res)=>{
     .catch((er)=>res.json(er))
 })
 
+//user management
+
+app.post("/user",(req,res)=>{
+    userfulmodal.create(req.body)
+    .then((re)=>res.json(re))
+    .catch((er)=>res.json(er))
+})
+//usertrack management
+app.post("/type",(req,res)=>{
+   usertrackmodal.create(req.body)
+    .then((utr)=>res.json(utr))
+    .catch((er)=>res.json(er))
+})
+
+app.get("/info/:email",(req,res)=>{
+    email=req.params.email
+    userfulmodal.findOne({email:email})
+    .then((re)=>res.json(re))
+    .catch((er)=>res.json(er))
+})
+app.get("/find",(req,rea)=>{
+    usertrackmodal.find()
+    .then((pp)=>res.json(pp))
+    .catch((er)=>res.json(er))
+})
 app.listen(3001,()=>{
     console.log("server is Running")
 })

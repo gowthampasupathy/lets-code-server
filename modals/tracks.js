@@ -4,7 +4,10 @@ const exploreschema=new mongoose.Schema({
     description:String,
     imageurl:String,
     type:String,
-    
+    check:Boolean,
+    url:String,
+    count:Number,
+    badgecount:Number,
 
 })
 const trackmodal=mongoose.model("track",exploreschema)
