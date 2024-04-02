@@ -9,12 +9,33 @@ const probleminfo= new mongoose.Schema({
     diff:String,
     con:String,
     lvl:String,
+    language:String,
+    completion:Number,
+    solutions:[
+        {
+            title:String,
+            status:String,
+            code:String,
+            expectedoutput:String,
+            output:String,
+            langused:String,
+            timecomp:String,
+            spacecomp:Number,
+        }
+
+    ],
     testcase:[
         {
             input:String,
             output:String,
         }
-    ]
+    ],
+    hiddentestcase:[
+        {
+            input:String,
+            output:String,
+        }
+    ],
 })
 
 const prbmodal=mongoose.model("problemdoc",probleminfo)

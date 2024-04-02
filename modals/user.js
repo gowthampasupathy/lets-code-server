@@ -1,17 +1,28 @@
 const mongoose =require('mongoose')
 const trackmodal = require('./tracks')
+
+const usertrk =new mongoose.Schema({
+    title: String,
+    description: String,
+    imageurl: String,
+    type: String,
+    check: Boolean,
+    url: String,
+    count: Number,
+    badgecount: Number,
+    enrollment:Number,
+});
 const userschema=new mongoose.Schema({
     name:String,
     email:String,
     country:String,
     college:String,
     contact:String,
-    solvedcount:{
-        total:Number,
-        easy:Number,
-        medium:Number,
-        hard:Number,
-    },
+    total:Number,
+    easy:Number,
+    medium:Number,
+    hard:Number,
+    
     problem:[{
         status:Boolean,
         title:String,
@@ -23,24 +34,37 @@ const userschema=new mongoose.Schema({
         diff:String,
         con:String,
         lvl:String,
+        language:String,
+        completion:Number,
+        solutions:[
+            {
+                title:String,
+                status:String,
+                code:String,
+                expectedoutput:String,
+                output:String,
+                langused:String,
+                timecomp:String,
+                spacecomp:Number,
+            }
+
+        ],
         testcase:[
             {
                 input:String,
                 output:String,
             }
         ],
-        solved:[
+        hiddentestcase:[
             {
-            prbtitle:String,
-            language:String,
-            code:String,
-            output:String,
-            time:String,
-            space:String,
-    
-        }
-        ]
-        },],
+                input:String,
+                output:String,
+            }
+        ],
+        },
+        
+    ],
+    track: [usertrk], 
     
 })
 const userfulmodal=mongoose.model("user",userschema)

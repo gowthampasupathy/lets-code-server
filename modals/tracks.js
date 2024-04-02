@@ -8,6 +8,7 @@ const exploreschema=new mongoose.Schema({
     url:String,
     count:Number,
     badgecount:Number,
+    enrollment:Number
 
 })
 const trackmodal=mongoose.model("track",exploreschema)
