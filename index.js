@@ -81,6 +81,15 @@ app.post("/register",(req,res)=>{
     .catch(err=>res.json(err))
     
 })
+//check email
+app.post("/getemail",(req,res)=>{
+    const user=usermodal.find({email:req.body})
+    if(user.size==0){
+        res.json("No")
+    }else{
+        res.json("yes")
+    }
+})
 //Login Code
 app.post("/login",(req,res)=>{
     const{email,password}=req.body
@@ -103,7 +112,7 @@ app.post("/login",(req,res)=>{
             })
         }
         else{
-           return res.json("No Record Exist")
+           return res.json("No Such Email Exist")
         }
     }
     )
