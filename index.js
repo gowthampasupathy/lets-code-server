@@ -100,9 +100,9 @@ app.post("/login",(req,res)=>{
                 if(resp){
                     const token=jwt.sign({email:result.email,role:result.role,id:result.id},"jwt-secret-key",{expiresIn:'1d'})
                     res.cookie("token",token,{ 
-                        httpOnly: true, // Ensure cookie is accessible only through HTTP(S)
-                        secure: true, // Set secure flag if request is over HTTPS
-                        sameSite: 'none' // Enforce strict SameSite policy
+                        httpOnly: true, 
+                        secure: true, 
+                        sameSite: 'none' 
                     })
                     return res.json({status:"Success",role:result.role,token:token})
 
