@@ -343,7 +343,7 @@ app.get("/getprbdetail/:id/:pid",async(req,res)=>{
         }
 
         // Extract the test cases from the user document
-        const problemarr = user.problem.find(problem => problem.problemtitle==pid);
+        const problemarr = user.problem.find(problem => problem.id==pid);
 
         res.json(problemarr);
     } catch (error) {
