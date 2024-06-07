@@ -364,7 +364,7 @@ app.get("/getprbtestcase/:id/:pid",async (req,res)=>{
         }
 
         // Extract the test cases from the user document
-        const problemarr = user.problem.find(problem => problem.problemtitle==pid);
+        const problemarr = user.problem.find(problem => problem.id==pid);
         const testCases=problemarr.testcase;
 
         res.json(testCases);
@@ -388,7 +388,7 @@ app.get("/getprbhiddentestcase/:id/:pid",async (req,res)=>{
         }
 
         // Extract the test cases from the user document
-        const problemarr = user.problem.find(problem => problem.problemtitle==pid);
+        const problemarr = user.problem.find(problem => problem.id==pid);
         const hiddentestCases=problemarr.hiddentestcase;
 
         res.json(hiddentestCases);
@@ -413,7 +413,7 @@ app.get("/getsolution/:id/:pid",async (req,res)=>{
 
         // Extract the test cases from the user document
         const index=0;
-        const problemarr = user.problem.find(problem => problem.problemtitle==pid);
+        const problemarr = user.problem.find(problem => problem.id==pid);
         const solution=problemarr.solutions[index];
 
         res.json(solution);
@@ -437,7 +437,7 @@ app.put("/updatesolution/:id/:prbid", async(req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        const problemIndex = user.problem.findIndex(problem => problem.problemtitle === prbid);
+        const problemIndex = user.problem.findIndex(problem => problem.id === prbid);
         if (problemIndex === -1) {
             return res.status(404).json({ error: 'Problem not found for this user' });
         }
