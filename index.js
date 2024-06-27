@@ -13,7 +13,7 @@ const usertrackmodal=require('./modals/usertrack')
 
 const app=express()
 app.use(cors({
-    origin:["https://lets-code-self.vercel.app","http://localhost:3000"],
+    origin:["https://lets-code-server-1.onrender.com","http://localhost:3000"],
     methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))
